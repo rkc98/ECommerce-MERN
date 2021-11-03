@@ -59,5 +59,9 @@ userSchema.methods.generateJwtToken = function () {
     expiresIn: process.env.JWTEXPIRE,
   });
 };
-
+// compare password function
+userSchema.methods.comparePassword = async function (enteredPasssword) {
+  console.log("entered passowrd", enteredPasssword);
+  return await brycpt.compare(enteredPasssword, this.password);
+};
 module.exports = mongoose.model("User", userSchema);
