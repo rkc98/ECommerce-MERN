@@ -6,16 +6,23 @@ const {
   deleteProduct,
   getProductDetails,
 } = require("../controllers/productController");
-const authenticateUser = require("../middlewares/auth");
+const { authenticateUser, authorizeRoles } = require("../middlewares/auth");
+
 const router = express.Router();
 
-router.route("/products").get(authenticateUser, getAllProducts);
+router.route("/products").get(getAllProducts);
 
-router.route("/products/new").post(createProduct);
+router
+  .route("/products/new")
+  .post(authenticateUser, authorizeRoles("admin"), createProduct);
 
-router.route("/product/:id").put(updateProduct);
+router
+  .route("/product/:id")
+  .put(authenticateUser, authorizeRoles("admin"), updateProduct);
 
-router.route("/product/:id").delete(deleteProduct);
+router
+  .route("/product/:id")
+  .delete(authenticateUser, authorizeRoles("admin"), deleteProduct);
 
 router.route("/product/:id").get(getProductDetails);
 

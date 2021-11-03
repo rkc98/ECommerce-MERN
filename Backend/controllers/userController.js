@@ -10,6 +10,7 @@ exports.registerUser = async (req, res, next) => {
       name,
       email,
       password,
+
       avatar: {
         public_id: "this is a demo id",
         url: "smaple/url",

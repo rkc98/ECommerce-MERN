@@ -15,5 +15,13 @@ const authenticateUser = async (req, res, next) => {
     next(new ErrorHandler("internal server error", 404));
   }
 };
+const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(new ErrorHandler("only admin is allowed", 403));
+    }
+    next();
+  };
+};
 
-module.exports = authenticateUser;
+module.exports = { authenticateUser, authorizeRoles };
