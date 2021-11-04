@@ -10,6 +10,7 @@ const {
   updateUserDetails,
   getAllUsers,
   getUser,
+  updateUserRole,
 } = require("../controllers/userController");
 const { authenticateUser, authorizeRoles } = require("../middlewares/auth");
 
@@ -25,10 +26,14 @@ router.route("/password/update").put(authenticateUser, updatePassword);
 router.route("/me/update").put(authenticateUser, updateUserDetails);
 router
   .route("/getAllUsers")
-  .get(authenticateUser, authorizeRoles("admin"), getAllUsers); //Admin only route
+  .get(authenticateUser, authorizeRoles("admin"), getAllUsers); // Admin only route
 
 router
   .route("/getUser/:id")
-  .get(authenticateUser, authorizeRoles("admin"), getUser);
+  .get(authenticateUser, authorizeRoles("admin"), getUser); // Admin only route
+
+router
+  .route("/updateUser/:id")
+  .put(authenticateUser, authorizeRoles("admin"), updateUserRole); // Admin only route
 
 module.exports = router;

@@ -255,3 +255,27 @@ exports.getUser = async (req, res, next) => {
     next(new ErrorHandler(err, 404));
   }
 };
+
+// update user role (Admin)
+exports.updateUserRole = async (req, res, next) => {
+  try {
+    const userData = {
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+    };
+
+    const user = await User.findByIdAndUpdate(req.params.id, userData, {
+      runValidators: true,
+      new: true,
+    });
+
+    await user.save();
+    res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new ErrorHandler(err, 404));
+  }
+};
