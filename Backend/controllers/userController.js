@@ -279,3 +279,21 @@ exports.updateUserRole = async (req, res, next) => {
     next(new ErrorHandler(err, 404));
   }
 };
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(new ErrorHandler("user not found", 404));
+    }
+
+    await user.remove();
+
+    res.status(200).json({
+      user,
+    });
+  } catch (err) {
+    next(new ErrorHandler(err, 500));
+  }
+};
