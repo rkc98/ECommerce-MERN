@@ -86,7 +86,6 @@ exports.deleteProduct = async (req, res, next) => {
 };
 
 // get product details / get single product
-
 exports.getProductDetails = async (req, res, next) => {
   if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
     return next(new ErrorHandler("product not found error", 500));
@@ -103,6 +102,52 @@ exports.getProductDetails = async (req, res, next) => {
     });
   } catch (err) {
     console.log(err);
+    next(new ErrorHandler(err, 500));
+  }
+};
+
+// Create a new Review or update one
+exports.createProductReview = async (req, res, next) => {
+  try {
+    const { rating, comment, productId } = req.body;
+
+    const review = {
+      user: req.user._id,
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+    };
+
+    const product = await Product.findById(productId);
+
+    // find whether user has reviewed the product
+    const isReviewed = product.reviews.find(
+      (rev) => rev.user.toString() === req.user._id.toString()
+    );
+
+    if (isReviewed) {
+      product.reviews.forEach((rev) => {
+        if (rev.user.toString() === req.user._id.toString()) {
+          //if user has already reviewed just change the rating and comment
+          (rev.rating = rating), (rev.comment = comment);
+        }
+      });
+    } else {
+      await product.reviews.push(review);
+      product.numberOfReviews = product.reviews.length;
+    }
+
+    let total = 0;
+    product.reviews.forEach((rev) => (total += rev.rating));
+    product.ratings = avg / product.reviews.length; // calculate the average ratings
+
+    const reviewedProduct = await product.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+      reviewedProduct,
+    });
+  } catch (err) {
     next(new ErrorHandler(err, 500));
   }
 };
