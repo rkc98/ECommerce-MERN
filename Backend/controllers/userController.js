@@ -50,7 +50,7 @@ exports.loginUser = async (req, res, next) => {
       return next(new ErrorHandler("Invalid email-id and password", 401));
     }
 
-    const passwordMatched = user.comparePassword(password);
+    const passwordMatched = await user.comparePassword(password);
     if (!passwordMatched) {
       return next(new ErrorHandler("Invalid email-id and password", 401));
     }
@@ -155,6 +155,7 @@ exports.resetPassword = async (req, res, next) => {
   }
 };
 
+// get user details
 exports.getUserDetails = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
@@ -164,6 +165,36 @@ exports.getUserDetails = async (req, res, next) => {
       user,
     });
   } catch (err) {
+    next(new ErrorHandler(err, 404));
+  }
+};
+
+//update user password
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("+password");
+
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+    if (!isPasswordMatched) {
+      return next(new ErrorHandler("Old Password is incorrect", 404));
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return next(
+        new ErrorHandler(
+          "New Password and confirm password does not match",
+          404
+        )
+      );
+    }
+    user.password = req.body.newPassword;
+    await user.save();
+
+    sendToken(user, 200, res);
+  } catch (err) {
+    console.log(err);
     next(new ErrorHandler(err, 404));
   }
 };
