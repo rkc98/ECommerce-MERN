@@ -198,3 +198,60 @@ exports.updatePassword = async (req, res, next) => {
     next(new ErrorHandler(err, 404));
   }
 };
+
+//update user Details
+exports.updateUserDetails = async (req, res, next) => {
+  try {
+    const userData = {
+      name: req.body.name,
+      email: req.body.email,
+    };
+    //  avatar is put on hold will be added once couldinary is configured
+    const user = await User.findByIdAndUpdate(req.user.id, userData, {
+      runValidators: true,
+      new: true,
+    });
+
+    await user.save();
+    res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new ErrorHandler(err, 404));
+  }
+};
+
+// get All user
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const user = await User.find();
+    const userCount = await User.countDocuments();
+    // console.log(user);
+    res.status(200).json({
+      user,
+      userCount,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new ErrorHandler(err, 404));
+  }
+};
+// get single user (Admin)
+exports.getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    // console.log(user);
+    if (!user) {
+      return next(
+        new ErrorHandler("user not found with id " + req.params.id, 404)
+      );
+    }
+    res.status(200).json({
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new ErrorHandler(err, 404));
+  }
+};
