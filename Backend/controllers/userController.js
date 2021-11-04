@@ -154,3 +154,16 @@ exports.resetPassword = async (req, res, next) => {
     next(new ErrorHandler(err, 404));
   }
 };
+
+exports.getUserDetails = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    next(new ErrorHandler(err, 404));
+  }
+};
