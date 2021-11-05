@@ -4,6 +4,8 @@ const {
   getSingleOrder,
   getUserOrders,
   getAllOrders,
+  updateOrder,
+  deleteOrder,
 } = require("../controllers/orderController");
 const { authenticateUser, authorizeRoles } = require("../middlewares/auth");
 const router = express.Router();
@@ -15,4 +17,13 @@ router.route("/orders/me").get(authenticateUser, getUserOrders); //get all of yo
 router
   .route("/orders")
   .get(authenticateUser, authorizeRoles("admin"), getAllOrders); // get All orders (Admin only route)
+
+router
+  .route("/order/:id")
+  .put(authenticateUser, authorizeRoles("admin"), updateOrder);
+
+router
+  .route("/order/:id")
+  .delete(authenticateUser, authorizeRoles("admin"), deleteOrder);
+
 module.exports = router;
