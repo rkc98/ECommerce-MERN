@@ -35,3 +35,23 @@ exports.newOrder = async (req, res, next) => {
     next(new ErrorHandler(err, 500));
   }
 };
+
+//getting single order
+exports.getSingleOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
+    if (!order) {
+      return next(
+        new ErrorHandler("order not found with id " + req.params.id, 404)
+      );
+    }
+    res.status(200).json({
+      order,
+    });
+  } catch (err) {
+    next(new ErrorHandler(err, 500));
+  }
+};
