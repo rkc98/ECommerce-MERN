@@ -55,3 +55,16 @@ exports.getSingleOrder = async (req, res, next) => {
     next(new ErrorHandler(err, 500));
   }
 };
+
+// get all orders of a user
+
+exports.getUserOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.user._id });
+    res.status(200).json({
+      orders,
+    });
+  } catch (err) {
+    next(new ErrorHandler(err, 500));
+  }
+};
