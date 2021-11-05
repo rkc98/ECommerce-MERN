@@ -68,3 +68,22 @@ exports.getUserOrders = async (req, res, next) => {
     next(new ErrorHandler(err, 500));
   }
 };
+
+// get all Orders (Admin Only)
+
+exports.getAllOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find();
+
+    let totalAmount = 0;
+
+    orders.forEach((order) => (totalAmount += order.totalPrice));
+
+    res.status(200).json({
+      orders,
+      totalAmount,
+    });
+  } catch (err) {
+    next(new ErrorHandler(err, 500));
+  }
+};
