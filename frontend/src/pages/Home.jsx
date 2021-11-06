@@ -1,5 +1,6 @@
 import { Mouse } from '@material-ui/icons'
 import React from 'react'
+import Metadata from '../components/layout/Metadata'
 import Product from '../components/Product'
 
 import Styles from './Home.module.css'
@@ -16,7 +17,7 @@ const Home = () => {
 
     return (
         <>
-
+            <Metadata title="Home Page" />
 
             <div className={Styles.banner}>
                 <p>Welcome to Ecommerce</p>
