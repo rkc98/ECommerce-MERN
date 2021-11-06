@@ -1,20 +1,24 @@
 import { Mouse } from '@material-ui/icons'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Metadata from '../components/layout/Metadata'
 import Product from '../components/Product'
+import { getProducts } from '../store/actions/productAction'
 
 import Styles from './Home.module.css'
 
-const product = {
-    name: "Demo",
-    images: [{ url: "https://cached.imagescaler.hbpl.co.uk/resize/scaleHeight/815/cached.offlinehbpl.hbpl.co.uk/news/OMC/all-products-20170125054108782.gif" }],
-    price: "$2000",
-    _id: "some123"
-
-}
 
 const Home = () => {
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log("called");
+        dispatch(getProducts())
+    }, [dispatch])
+
+    const { loading, products, error, productsCount } = useSelector(state => state.products)
+    console.log(JSON.stringify(products));
     return (
         <>
             <Metadata title="Home Page" />
@@ -34,14 +38,9 @@ const Home = () => {
 
             <div className={Styles.container}>
 
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
-                <Product product={product} />
+                {products && products.map(product => <Product key={product._id} product={product} />)}
+
+
 
             </div>
 
