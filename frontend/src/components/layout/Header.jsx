@@ -11,10 +11,12 @@ display: flex;
 flex: 1;
 justify-content: space-evenly;
 align-items: center;
+height: 15vh;
 `
 const Left = styled.div`
 display: flex;
 flex: 3;
+margin-left: 20px;
 `
 const Center = styled.div`
 flex: 4;
@@ -28,14 +30,14 @@ justify-content: flex-end;
 `
 const BrandName = styled.h1`
 font-size: 35px;
-font-weight: 400;
+font-weight: 700;
 font-family: cursive;
 `
 const StyledLink = styled(Link)`
 text-decoration: none;
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 font-size: 24px;
-color: #747272;
+color: #111111;
 `
 const Icons = styled.div`
  margin-right : 40px;
