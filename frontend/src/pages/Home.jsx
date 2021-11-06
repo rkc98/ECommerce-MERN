@@ -1,4 +1,4 @@
-import { Mouse } from '@material-ui/icons'
+
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Metadata from '../components/layout/Metadata'
@@ -39,9 +39,6 @@ const Home = () => {
             <div className={Styles.container}>
 
                 {products && products.map(product => <Product key={product._id} product={product} />)}
-
-
-
             </div>
 
 

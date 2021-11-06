@@ -10,10 +10,10 @@ const Product = ({ product }) => {
             <p>{product.name}</p>
 
             <div>
-                <ReactStars edit={false} activeColor="red" isHalf={true} color="gray" value={2.5} size={15} />
-                <span> (256 Reviews)</span>
+                <ReactStars edit={false} activeColor="red" isHalf={true} color="gray" value={product.ratings} size={15} />
+                <span> ({product.numberOfReviews} Reviews)</span>
             </div>
-            <span>{product.price}</span>
+            <span>{`₹${product.price}`}</span>
         </Link>
     )
 }
