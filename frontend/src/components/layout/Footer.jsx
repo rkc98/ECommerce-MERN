@@ -52,7 +52,7 @@ const Footer = () => {
             <Right>
                 <Title>Contact</Title>
                 <ContactItem>
-                    <Room style={{ marginRight: "10px" }} /> 822 Corporate Avenue , Goregaon East
+                    <Room style={{ marginRight: "10px" }} /> 822 Corporate Avenue, Goregaon East
                 </ContactItem>
                 <ContactItem>
                     <Phone style={{ marginRight: "10px" }} /> 9090190191
@@ -77,6 +77,7 @@ display: flex;
 flex-direction: column;
 flex:1;
 padding: 20px;
+justify-content: space-between;
 `
 const Center = styled.div`
 flex:1;

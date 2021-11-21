@@ -32,6 +32,7 @@ const BrandName = styled.h1`
 font-size: 35px;
 font-weight: 700;
 font-family: cursive;
+cursor: pointer;
 `
 const StyledLink = styled(Link)`
 text-decoration: none;
