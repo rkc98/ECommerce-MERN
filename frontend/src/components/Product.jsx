@@ -5,7 +5,7 @@ import Styles from './Product.module.css'
 
 const Product = ({ product }) => {
     return (
-        <Link className={Styles.productCard} to={product._id}>
+        <Link className={Styles.productCard} to={`/product/${product._id}`}>
             <img src={product.images[0].url} />
             <p>{product.name}</p>
 
